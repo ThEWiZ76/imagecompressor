@@ -1,0 +1,16 @@
+{
+  "name": "imagecompressor",
+  "version": "0.0.1",
+  "description": "Image compressor",
+  "main": "main.js",
+  "scripts": {
+    "start": "electron .",
+    "dev": "nodemon --exec electron ."
+  },
+  "author": "Roland Klein Overmeer",
+  "license": "MIT",
+  "devDependencies": {
+    "electron": "^9.0.4",
+    "nodemon": "^2.0.4"
+  }
+}
