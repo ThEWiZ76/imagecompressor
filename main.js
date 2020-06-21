@@ -1,10 +1,11 @@
-const { app, BrowserWindow, Menu, globalShortcut } = require('electron');
+const { app, BrowserWindow, Menu } = require('electron');
 
 // Set env
 process.env.NODE_ENV = 'development';
 
 const isDev = process.env.NODE_ENV !== 'production' ? true : false;
 const isMac = process.platform == 'darwin' ? true : false;
+const version = '1.0.0';
 
 let mainWindow;
 let abuoutWindow;
@@ -28,6 +29,7 @@ function createAboutWindow() {
     title: 'About ImageShrink',
     width: 300,
     height: 300,
+    menuBarVisible: false,
     icon: `${__dirname}/assets/icons/Icon_256x256.png`,
     resizable: false,
     backgroundColor: 'white',
@@ -39,18 +41,23 @@ app.on('ready', () => {
   createMainWindow();
   const mainMenu = Menu.buildFromTemplate(menu);
   Menu.setApplicationMenu(mainMenu);
-  globalShortcut.register('CmdOrCtrl+R', () => mainWindow.reload());
-  if (isDev) {
-    globalShortcut.register(isMac ? 'Command+Alt+I' : 'Ctrl+Shift+I', () =>
-      mainWindow.toggleDevTools()
-    );
-  }
-
   mainWindow.on('close', () => (mainWindow = null));
 });
 
 const menu = [
-  ...(isMac ? [{ role: 'appMenu' }] : []),
+  ...(isMac
+    ? [
+        {
+          label: app.name,
+          submenu: [
+            {
+              label: 'About',
+              click: createAboutWindow,
+            },
+          ],
+        },
+      ]
+    : []),
   {
     role: 'fileMenu',
   },
@@ -68,6 +75,24 @@ const menu = [
       { role: 'togglefullscreen' },
     ],
   },
+  ...(!isMac
+    ? [
+        {
+          label: 'Help',
+          submenu: [
+            {
+              label: 'About',
+              click: createAboutWindow,
+            },
+            { type: 'separator' },
+            {
+              label: 'Version ' + version,
+              enabled: false,
+            },
+          ],
+        },
+      ]
+    : []),
 ];
 
 app.on('window-all-closed', () => {
