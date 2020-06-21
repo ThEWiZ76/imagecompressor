@@ -7,6 +7,7 @@ const isDev = process.env.NODE_ENV !== 'production' ? true : false;
 const isMac = process.platform == 'darwin' ? true : false;
 
 let mainWindow;
+let abuoutWindow;
 
 function createMainWindow() {
   mainWindow = new BrowserWindow({
@@ -20,6 +21,18 @@ function createMainWindow() {
 
   // mainWindow.loadURL(`file://${__dirname}/app/index.html`)
   mainWindow.loadFile(`${__dirname}/app/index.html`);
+}
+
+function createAboutWindow() {
+  aboutWindow = new BrowserWindow({
+    title: 'About ImageShrink',
+    width: 300,
+    height: 300,
+    icon: `${__dirname}/assets/icons/Icon_256x256.png`,
+    resizable: false,
+    backgroundColor: 'white',
+  });
+  aboutWindow.loadFile(`${__dirname}/app/about.html`);
 }
 
 app.on('ready', () => {
@@ -39,14 +52,20 @@ app.on('ready', () => {
 const menu = [
   ...(isMac ? [{ role: 'appMenu' }] : []),
   {
-    label: 'File',
+    role: 'fileMenu',
+  },
+  {
+    label: 'View',
     submenu: [
-      {
-        label: 'Quit',
-        // accelerator: isMac ? 'Command+W' : 'Ctrl+W',
-        accelerator: 'CmdOrCtrl+W',
-        click: () => app.quit(),
-      },
+      { role: 'reload' },
+      { role: 'forcereload' },
+      isDev ? { role: 'toggledevtools' } : {},
+      { type: 'separator' },
+      { role: 'resetzoom' },
+      { role: 'zoomin' },
+      { role: 'zoomout' },
+      { type: 'separator' },
+      { role: 'togglefullscreen' },
     ],
   },
 ];
