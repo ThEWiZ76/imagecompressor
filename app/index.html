@@ -34,7 +34,7 @@
           <strong>Quality:</strong>
           <em>The lower the quality, the smaller the file size</em>
         </p>
-        <p class="range-filed">
+        <p class="range-field">
           <input type="range" min="0" max="100" id="slider" />
         </p>
         <input type="submit" value="Resize" class="btn black" />
@@ -47,5 +47,14 @@
       </div>
     </div>
     <script src="js/materialize.min.js"></script>
+    <script>
+      const path = require('path');
+      const os = require('os');
+
+      document.getElementById('output-path').innerText = path.join(
+        os.homedir(),
+        'imageshrink'
+      );
+    </script>
   </body>
 </html>
