@@ -29,11 +29,11 @@ function createAboutWindow() {
     title: 'About ImageShrink',
     width: 300,
     height: 300,
-    menuBarVisible: false,
     icon: `${__dirname}/assets/icons/Icon_256x256.png`,
     resizable: false,
     backgroundColor: 'white',
   });
+  aboutWindow.setMenuBarVisibility(false);
   aboutWindow.loadFile(`${__dirname}/app/about.html`);
 }
 
@@ -67,12 +67,6 @@ const menu = [
       { role: 'reload' },
       { role: 'forcereload' },
       isDev ? { role: 'toggledevtools' } : {},
-      { type: 'separator' },
-      { role: 'resetzoom' },
-      { role: 'zoomin' },
-      { role: 'zoomout' },
-      { type: 'separator' },
-      { role: 'togglefullscreen' },
     ],
   },
   ...(!isMac
